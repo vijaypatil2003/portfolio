@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio - Data Scientist</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#6366f1", secondary: "#4f46e5" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      }
+      .contact-icon {
+      animation: pulseIcon 2s infinite;
+      background: linear-gradient(45deg, #6366f1, #ec4899);
+      }
+      @keyframes pulseIcon {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+      }
+      .contact-form-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      }
+      .contact-form-input:focus {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #6366f1;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+      }
+      .floating-laptop {
+      position: absolute;
+      right: -100px;
+      bottom: -50px;
+      width: 300px;
+      height: 300px;
+      opacity: 0.1;
+      animation: floatLaptop 6s ease-in-out infinite;
+      }
+      @keyframes floatLaptop {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-20px, -20px) rotate(5deg); }
+      }
+      .code-rain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      }
+      .code-particle {
+      color: #6366f1;
+      text-shadow: 0 0 5px #6366f1;
+      }
+      .nav-link {
+      color: white;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      }
+      .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background-color: #6366f1;
+      transition: all 0.3s ease;
+      }
+      .nav-link:hover::after,
+      .nav-link.active::after {
+      width: 100%;
+      }
+      .nav-link:hover {
+      color: #6366f1;
+      }
+      .nav-link.active {
+      color: #6366f1;
+      }
+      .animated-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      overflow: hidden;
+      animation: gradientShift 15s ease infinite;
+      }
+      @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+      }
+      .code-particle {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.15);
+      font-family: monospace;
+      font-size: 14px;
+      white-space: nowrap;
+      pointer-events: none;
+      }
+      .data-particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+      }
+      .glass-panel {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+      .name-text {
+      text-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+      transition: text-shadow 0.3s ease;
+      }
+      .name-text:hover {
+      text-shadow: 0 0 30px rgba(99, 102, 241, 0.8);
+      }
+      .title-text {
+      text-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+      transition: text-shadow 0.3s ease;
+      }
+      .title-text:hover {
+      text-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+      }
+      .tech-icon {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      transition: all 0.5s ease;
+      animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); }
+      50% { transform: scale(1.05); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); }
+      100% { transform: scale(1); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); }
+      }
+      .tech-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      }
+      .tech-icon.power-bi {
+      box-shadow: 0 0 20px rgba(87, 181, 231, 0.5);
+      }
+      .tech-icon.python {
+      box-shadow: 0 0 20px rgba(141, 211, 199, 0.5);
+      }
+      .tech-icon.sql {
+      box-shadow: 0 0 20px rgba(252, 141, 98, 0.5);
+      }
+      .avatar-container {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      animation: float 6s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.3));
+      }
+      .avatar-container img {
+      transition: transform 0.3s ease;
+      }
+      .avatar-container:hover img {
+      transform: scale(1.02);
+      }
+      @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+      }
+      @keyframes orbit {
+      0% {
+      transform: rotate(0deg) translateX(120px) rotate(0deg);
+      filter: brightness(1);
+      }
+      50% {
+      transform: rotate(180deg) translateX(120px) rotate(-180deg);
+      filter: brightness(1.2);
+      }
+      100% {
+      transform: rotate(360deg) translateX(120px) rotate(-360deg);
+      filter: brightness(1);
+      }
+      }
+      .orbit-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 240px;
+      height: 240px;
+      margin-left: -120px;
+      margin-top: -120px;
+      border-radius: 50%;
+      border: 1px dashed rgba(255, 255, 255, 0.1);
+      }
+      @media (max-width: 768px) {
+      .main-container {
+      flex-direction: column;
+      }
+      .left-panel, .right-panel {
+      width: 100%;
+      height: 50vh;
+      }
+      .avatar-container {
+      width: 300px;
+      height: 300px;
+      }
+      .orbit-container {
+      width: 200px;
+      height: 200px;
+      margin-left: -100px;
+      margin-top: -100px;
+      }
+      .tech-icon {
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      }
+      }
+    </style>
+
+
+<!-- background-animation -->
+<!-- 🌌 Animated Background Setup (Particles.js Library and Styling) -->
+    <!-- Particles.js Library -->
+<!-- <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<style>
+  /* Fullscreen animated background */
+  #particles-js {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+</style> -->
+
+  </head>
+
+
+
+
+<!-- =======================================================================================================================================-->
+    <!--           BODY                 -->
+<!-- =======================================================================================================================================-->
+<body class="bg-gray-900 text-white">
+
+    <!-- 🌟 Animated Background Container -->
+    <!-- Animated Background Container -->
+<!-- <div id="particles-js"></div> -->
+
+    <div class="animated-background" id="animated-background"></div>
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-transparent backdrop-blur-md">
+      <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <a href="#home" class="text-2xl font-['Pacifico'] text-white"
+            >Alexander Mitchell</a
+          >
+          <div class="hidden md:flex space-x-8">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#skills" class="nav-link">Skills</a>
+            <a href="#contact" class="nav-link">Contact</a>
+          </div>
+          <button class="md:hidden text-white" id="mobile-menu-button">
+            <i class="ri-menu-line text-2xl"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div
+      class="mobile-menu hidden fixed top-16 left-0 right-0 bg-gray-900 bg-opacity-95 backdrop-blur-lg z-40"
+    >
+      <div class="container mx-auto px-6 py-4">
+        <a href="#home" class="block py-2 text-white hover:text-primary"
+          >Home</a
+        >
+        <a href="#about" class="block py-2 text-white hover:text-primary"
+          >About</a
+        >
+        <a href="#skills" class="block py-2 text-white hover:text-primary"
+          >Skills</a
+        >
+        <a href="#contact" class="block py-2 text-white hover:text-primary"
+          >Contact</a
+        >
+      </div>
+    </div>
+    <main class="pt-16">
+
+
+
+
+
+
+
+
+<!-- =================================================================================================================================================== -->
+ <!--             Home Section         -->
+<!-- =================================================================================================================================================== -->
+<section id="home" class="min-h-screen flex items-center justify-center bg-gray-900 text-white px-6 py-12">
+  <div class="flex flex-col md:flex-row items-center max-w-6xl w-full space-y-12 md:space-y-0 md:space-x-12">
+
+    <!-- Left: Text Content -->
+    <div class="flex-1 text-center md:text-left space-y-6">
+      <h1 class="text-5xl font-extrabold name-text">Vijay Patil</h1>
+      <h2 class="text-2xl font-light title-text text-primary">Data Scientist</h2>
+      <p class="text-lg text-gray-300 leading-relaxed">
+        Transforming complex data into actionable insights with innovative algorithms and eye-catching visualizations.
+      </p>
+      <p class="text-lg text-gray-400 leading-relaxed">
+        Specialized in predictive modeling, machine learning, and data-driven decision making for real-world impact.
+      </p>
+
+      <div class="flex flex-wrap justify-center md:justify-start space-x-4 pt-4">
+        <a href="#about" class="px-6 py-3 bg-primary hover:bg-opacity-90 text-white font-medium rounded-button shadow-lg hover:shadow-xl transition-all duration-300 flex items-center">
+          <i class="ri-user-line mr-2"></i> About Me
+        </a>
+        <a href="#contact" class="px-6 py-3 border border-white hover:bg-white/10 text-white font-medium rounded-button transition-all duration-300 flex items-center">
+          <i class="ri-mail-line mr-2"></i> Contact
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: Avatar -->
+   <!-- Right: Avatar -->
+<div class="flex-1 flex justify-center">
+  <img id="profile-avatar" src="Photos/0.png" alt="Animated Avatar" class="w-80 h-auto object-cover animate-fade-up">
+</div>
+
+<!-- Animation Script -->
+<script>
+  const avatar = document.getElementById('profile-avatar');
+  const frames = ["Photos/0.png", "Photos/1.png", "Photos/2.png", "Photos/3.png", "Photos/4.png"];
+  let index = 0;
+
+  setInterval(() => {
+    avatar.src = frames[index];
+    index = (index + 1) % frames.length;
+  }, 900);
+</script>
+
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =================================================================================================================================================== -->
+ <!--              About Section          -->
+<!-- =================================================================================================================================================== -->
+
+<section id="about" class="min-h-screen py-20 px-6 bg-gradient-to-b from-gray-900 via-gray-950 to-black text-white">
+  <div class="container mx-auto max-w-3xl">
+    <!-- Heading -->
+    <h2 class="text-5xl font-extrabold text-center mb-12 animate-fade-up">
+      <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-transparent bg-clip-text">
+        👨‍💻 About Me
+      </span>
+    </h2>
+
+    <div class="glass-panel p-6 md:p-10 rounded-3xl shadow-xl backdrop-blur-md bg-white/5 space-y-10 animate-fade-up delay-200">
+      <!-- Intro -->
+      <p class="text-lg md:text-xl text-center text-gray-300 leading-relaxed">
+        I'm a <span class="text-teal-400 font-semibold">Data Science student</span> with a passion for exploring data, building ML models, and turning complex problems into simple solutions. I love blending creativity and logic to make data come alive.
+      </p>
+
+      <!-- Education -->
+<div class="mt-8">
+  <h4 class="text-xl font-semibold mb-4">Education</h4>
+  <ul class="space-y-4">
+
+    <!-- RCPIT -->
+    <li class="flex items-start p-2 rounded transition transform hover:scale-105 hover:bg-white/10">
+      <img src="photos/rcpit.png" alt="RCPIT Logo" class="w-10 h-10 mr-4 rounded-full">
+      <div>
+        <h5 class="font-medium flex items-center">🎓 B.Tech in CSE Data Science</h5>
+        <p class="text-sm text-gray-400">R.C. Patel Institute of Technology, Shirpur, Maharashtra 🇮🇳</p>
+        <p class="text-sm text-gray-400">CGPA: 7.5/10 | 2021 – 2025</p>
+      </div>
+    </li>
+
+    <!-- PSGVPM -->
+    <li class="flex items-start p-2 rounded transition transform hover:scale-105 hover:bg-white/10">
+      <img src="https://psgvpceducation.ac.in/wp-content/uploads/2018/08/cropped-Logo.png" alt="PSGVPM Logo" class="w-10 h-10 mr-4 rounded-full">
+      <div>
+        <h5 class="font-medium flex items-center">📜 12th (HSC)</h5>
+        <p class="text-sm text-gray-400">P.S.G.V.P.M. Junior College, Shahada, Maharashtra 🇮🇳</p>
+        <p class="text-sm text-gray-400">Percentage: 89% | 2020 – 2021</p>
+      </div>
+    </li>
+
+    <!-- K.R. Public School -->
+    <li class="flex items-start p-2 rounded transition transform hover:scale-105 hover:bg-white/10">
+      <img src="photos/krps.png" alt="KR Public School Logo" class="w-10 h-10 mr-4 rounded-full">
+      <div>
+        <h5 class="font-medium flex items-center">🏫 10th (SSC)</h5>
+        <p class="text-sm text-gray-400">K.R. Public School, Nandurbar, Maharashtra 🇮🇳</p>
+        <p class="text-sm text-gray-400">Percentage: 82% | 2018 – 2019</p>
+      </div>
+    </li>
+
+  </ul>
+</div>
+
+  <!-- Animation -->
+  <style>
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up {
+      animation: fadeUp 1s ease-out forwards;
+      opacity: 0;
+    }
+    .delay-200 { animation-delay: 0.2s; }
+  </style>
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =================================================================================================================================================== -->
+      <!--              Skills Section              -->
+<!-- =================================================================================================================================================== -->
+
+
+
+<section id="skills" class="min-h-screen bg-black text-white">
+  <div class="container mx-auto">
+   <h2 class="glitter-heading text-4xl font-bold mb-32 text-center name-text">
+  Skills & Expertise
+</h2>
+
+
+
+
+    <!-- First Row: Skills -->
+    <div class="floating-skills relative flex flex-wrap items-center justify-center gap-8">
+      <!-- Python -->
+      <div class="skill-icon group relative w-24 h-32 flex flex-col items-center justify-center hover:z-10"
+        style="animation: floatSkill 5s infinite ease-in-out;" onmouseenter="focusSkill(this)" onmouseleave="resetSkills()">
+        <i class="ri-code-s-slash-line text-5xl text-yellow-400"></i>
+        <span class="text-sm text-sky-300 mt-2 font-medium">Python</span>
+        <p class="text-xs text-white text-center mt-1 opacity-0 group-hover:opacity-100 transition duration-300">
+          High-level programming language for automation & ML.
+        </p>
+      </div>
+
+      <!-- SQL -->
+      <div class="skill-icon group relative w-24 h-32 flex flex-col items-center justify-center hover:z-10"
+        style="animation: floatSkill 5s infinite ease-in-out;" onmouseenter="focusSkill(this)" onmouseleave="resetSkills()">
+        <i class="ri-database-2-line text-5xl text-green-400"></i>
+        <span class="text-sm text-sky-300 mt-2 font-medium">SQL</span>
+        <p class="text-xs text-white text-center mt-1 opacity-0 group-hover:opacity-100 transition duration-300">
+          Query language for working with structured databases.
+        </p>
+      </div>
+
+      <!-- Power BI -->
+      <div class="skill-icon group relative w-24 h-32 flex flex-col items-center justify-center hover:z-10"
+        style="animation: floatSkill 5s infinite ease-in-out;" onmouseenter="focusSkill(this)" onmouseleave="resetSkills()">
+        <i class="ri-bar-chart-2-line text-5xl text-pink-400"></i>
+        <span class="text-sm text-sky-300 mt-2 font-medium">Power BI</span>
+        <p class="text-xs text-white text-center mt-1 opacity-0 group-hover:opacity-100 transition duration-300">
+          Visualize and analyze business data dashboards.
+        </p>
+      </div>
+
+      <!-- Analytical -->
+      <div class="skill-icon group relative w-24 h-32 flex flex-col items-center justify-center hover:z-10"
+        style="animation: floatSkill 5s infinite ease-in-out;" onmouseenter="focusSkill(this)" onmouseleave="resetSkills()">
+        <i class="ri-brain-line text-5xl text-red-400"></i>
+        <span class="text-sm text-sky-300 mt-2 font-medium">Analytical</span>
+        <p class="text-xs text-white text-center mt-1 opacity-0 group-hover:opacity-100 transition duration-300">
+          Ability to analyze complex problems and data patterns.
+        </p>
+      </div>
+
+      <!-- Problem Solving -->
+      <div class="skill-icon group relative w-24 h-32 flex flex-col items-center justify-center hover:z-10"
+        style="animation: floatSkill 5s infinite ease-in-out;" onmouseenter="focusSkill(this)" onmouseleave="resetSkills()">
+        <i class="ri-lightbulb-line text-5xl text-indigo-400"></i>
+        <span class="text-sm text-sky-300 mt-2 font-medium">Problem Solving</span>
+        <p class="text-xs text-white text-center mt-1 opacity-0 group-hover:opacity-100 transition duration-300">
+          Creative solutions to real-world challenges.
+        </p>
+      </div>
+    </div>
+
+    <!-- Second Row: Tools -->
+    <div class="floating-skills relative flex flex-wrap items-center justify-center gap-8 mt-12">
+      <!-- VS Code -->
+      <div class="skill-icon group relative w-24 h-32 flex flex-col items-center justify-center hover:z-10"
+        style="animation: floatSkill 6s infinite ease-in-out;" onmouseenter="focusSkill(this)" onmouseleave="resetSkills()">
+        <i class="ri-terminal-box-line text-5xl text-blue-400"></i>
+        <span class="text-sm text-sky-300 mt-2 font-medium">VS Code</span>
+        <p class="text-xs text-white text-center mt-1 opacity-0 group-hover:opacity-100 transition duration-300">
+          Lightweight but powerful code editor.
+        </p>
+      </div>
+
+      <!-- Power BI Desktop -->
+      <div class="skill-icon group relative w-24 h-32 flex flex-col items-center justify-center hover:z-10"
+        style="animation: floatSkill 6s infinite ease-in-out;" onmouseenter="focusSkill(this)" onmouseleave="resetSkills()">
+        <i class="ri-bar-chart-line text-5xl text-yellow-300"></i>
+        <span class="text-sm text-sky-300 mt-2 font-medium">Power BI Desktop</span>
+        <p class="text-xs text-white text-center mt-1 opacity-0 group-hover:opacity-100 transition duration-300">
+          Build reports & dashboards offline.
+        </p>
+      </div>
+
+      <!-- SQL Workbench -->
+      <div class="skill-icon group relative w-24 h-32 flex flex-col items-center justify-center hover:z-10"
+        style="animation: floatSkill 6s infinite ease-in-out;" onmouseenter="focusSkill(this)" onmouseleave="resetSkills()">
+        <i class="ri-database-line text-5xl text-green-300"></i>
+        <span class="text-sm text-sky-300 mt-2 font-medium">SQL Workbench</span>
+        <p class="text-xs text-white text-center mt-1 opacity-0 group-hover:opacity-100 transition duration-300">
+          Run SQL queries with ease.
+        </p>
+      </div>
+
+      <!-- Jupyter Notebook -->
+      <div class="skill-icon group relative w-24 h-32 flex flex-col items-center justify-center hover:z-10"
+        style="animation: floatSkill 6s infinite ease-in-out;" onmouseenter="focusSkill(this)" onmouseleave="resetSkills()">
+        <i class="ri-book-open-line text-5xl text-orange-300"></i>
+        <span class="text-sm text-sky-300 mt-2 font-medium">Jupyter</span>
+        <p class="text-xs text-white text-center mt-1 opacity-0 group-hover:opacity-100 transition duration-300">
+          Python notebooks for data science.
+        </p>
+      </div>
+
+      <!-- ChatGPT -->
+      <div class="skill-icon group relative w-24 h-32 flex flex-col items-center justify-center hover:z-10"
+        style="animation: floatSkill 6s infinite ease-in-out;" onmouseenter="focusSkill(this)" onmouseleave="resetSkills()">
+        <i class="ri-chat-smile-3-line text-5xl text-teal-300"></i>
+        <span class="text-sm text-sky-300 mt-2 font-medium">ChatGPT</span>
+        <p class="text-xs text-white text-center mt-1 opacity-0 group-hover:opacity-100 transition duration-300">
+          Prompt engineering & AI interactions.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Styles -->
+  <style>
+    @keyframes floatSkill {
+      0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+      25% { transform: translate(10px, 5px) rotate(2deg); }
+      50% { transform: translate(-10px, -8px) rotate(-2deg); }
+      75% { transform: translate(-5px, 10px) rotate(1deg); }
+    }
+
+    .skill-icon {
+      transition: all 0.3s ease;
+    }
+
+    .blurred {
+      filter: blur(3px);
+      opacity: 0.3;
+    }
+  </style>
+
+
+
+<!-- glitter seciton heading style -->
+ <style>
+  .glitter-heading {
+    background: linear-gradient(90deg, #fff, #0ff, #f0f, #0ff, #fff);
+    background-size: 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glitter-move 3s linear infinite;
+  }
+
+  @keyframes glitter-move {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 400% 50%;
+    }
+  }
+</style>
+
+
+  <!-- Script -->
+  <script>
+    function focusSkill(element) {
+      const all = document.querySelectorAll('.skill-icon');
+      all.forEach(el => {
+        if (el !== element) {
+          el.classList.add('blurred');
+        }
+      });
+    }
+
+    function resetSkills() {
+      const all = document.querySelectorAll('.skill-icon');
+      all.forEach(el => el.classList.remove('blurred'));
+    }
+  </script>
+</section>
+
+
+
+<!-- =================================================================================================================================================== -->
+      <!--              Contact Section             -->
+<!-- =================================================================================================================================================== -->
+
+
+      <section
+        id="contact"
+        class="min-h-screen bg-black text-white"
+      >
+        <div class="code-rain"></div>
+        <div class="container mx-auto relative">
+          <h2
+            class="text-4xl font-bold mb-12 text-center name-text bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-red-500"
+          >
+            Get in Touch
+          </h2>
+          <div class="max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12">
+              <div
+                class="glass-panel p-8 rounded-lg relative overflow-hidden hover:shadow-2xl transition-all duration-500"
+              >
+                <div class="floating-laptop">
+                  <i class="ri-macbook-line text-[300px]"></i>
+                </div>
+                <h3 class="text-2xl font-semibold mb-6">Contact Information</h3>
+                <div class="space-y-4">
+                  <div class="flex items-center group">
+                    <div
+                      class="w-10 h-10 flex items-center justify-center rounded-full contact-icon mr-4"
+                    >
+                      <i class="ri-mail-line text-white"></i>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-400">Email</p>
+                      <p class="text-white">vijayptl0106@.com</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center">
+                    <div
+                      class="w-10 h-10 flex items-center justify-center rounded-full bg-primary bg-opacity-20 mr-4"
+                    >
+                      <i class="ri-phone-line text-primary"></i>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-400">Phone</p>
+                      <p class="text-white">+91 7057331995</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center">
+                    <div
+                      class="w-10 h-10 flex items-center justify-center rounded-full bg-primary bg-opacity-20 mr-4"
+                    >
+                      <i class="ri-map-pin-line text-primary"></i>
+                    </div>
+                    <div>
+                      <p class="text-sm text-gray-400">Location</p>
+                      <p class="text-white">Shahada, Maharashtra</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-8">
+                  <h4 class="text-lg font-semibold mb-4">Follow Me</h4>
+                  <div class="flex space-x-4">
+                    <a
+                      href="https://www.linkedin.com/in/vijaypatil0106/"
+                      class="w-10 h-10 flex items-center justify-center rounded-full bg-primary bg-opacity-20 hover:bg-opacity-30 transition-all duration-300"
+                    >
+                      <i class="ri-linkedin-line text-primary"></i>
+                    </a>
+                    <a
+                      href="linked@example"
+                      class="w-10 h-10 flex items-center justify-center rounded-full bg-primary bg-opacity-20 hover:bg-opacity-30 transition-all duration-300"
+                    >
+                      <i class="ri-github-line text-primary"></i>
+                    </a>
+                    <a
+                      href="#"
+                      class="w-10 h-10 flex items-center justify-center rounded-full bg-primary bg-opacity-20 hover:bg-opacity-30 transition-all duration-300"
+                    >
+                      <i class="ri-twitter-line text-primary"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="glass-panel p-8 rounded-lg">
+                <h3
+                  class="text-2xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500"
+                >
+                  Send Message
+                </h3>
+                <form class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1"
+                      >Name</label
+                    >
+                    <input
+                      type="text"
+                      class="w-full px-4 py-2 contact-form-input rounded-lg focus:outline-none"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1"
+                      >Email</label
+                    >
+                    <input
+                      type="email"
+                      class="w-full px-4 py-2 contact-form-input rounded-lg focus:outline-none"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1"
+                      >Message</label
+                    >
+                    <textarea
+                      class="w-full px-4 py-2 contact-form-input rounded-lg focus:outline-none h-32"
+                      required
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    class="w-full px-6 py-3 bg-primary hover:bg-opacity-90 text-white font-medium rounded-button transition-all duration-300 shadow-lg hover:shadow-xl"
+                  >
+                    Send Message
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script id="avatar-3d-setup">
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.getElementById("avatar-3d");
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(400, 400);
+        renderer.setClearColor(0x000000, 0);
+        container.appendChild(renderer.domElement);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0x6366f1, 1);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+        camera.position.z = 2;
+        const loader = new THREE.GLTFLoader();
+        loader.load(
+          "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Robot/glTF/Robot.gltf",
+          function (gltf) {
+            const model = gltf.scene;
+            model.scale.set(0.5, 0.5, 0.5);
+            model.rotation.y = Math.PI / 4;
+            scene.add(model);
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableZoom = false;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 2;
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            function animate() {
+              requestAnimationFrame(animate);
+              controls.update();
+              renderer.render(scene, camera);
+            }
+            animate();
+          },
+        );
+      });
+    </script>
+    <script id="navigation-handler">
+      document.addEventListener("DOMContentLoaded", function () {
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.querySelector(".mobile-menu");
+        const navLinks = document.querySelectorAll(".nav-link");
+        mobileMenuButton.addEventListener("click", () => {
+          mobileMenu.classList.toggle("hidden");
+        });
+        function setActiveLink() {
+          const sections = document.querySelectorAll("section");
+          const scrollPosition = window.scrollY;
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            const sectionId = section.getAttribute("id");
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+              navLinks.forEach((link) => {
+                link.classList.remove("active");
+                if (link.getAttribute("href") === `#${sectionId}`) {
+                  link.classList.add("active");
+                }
+              });
+            }
+          });
+        }
+        window.addEventListener("scroll", setActiveLink);
+        setActiveLink();
+        const skillIcons = document.querySelectorAll(".skill-icon");
+        skillIcons.forEach((icon) => {
+          let isDragging = false;
+          let currentX;
+          let currentY;
+          let initialX;
+          let initialY;
+          let xOffset = 0;
+          let yOffset = 0;
+          icon.addEventListener("mousedown", dragStart);
+          document.addEventListener("mouseup", dragEnd);
+          document.addEventListener("mousemove", drag);
+          function dragStart(e) {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+            if (e.target === icon || e.target.parentElement === icon) {
+              isDragging = true;
+              icon.style.animation = "none";
+            }
+          }
+          function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+            icon.style.animation = "";
+          }
+          function drag(e) {
+            if (isDragging) {
+              e.preventDefault();
+              currentX = e.clientX - initialX;
+              currentY = e.clientY - initialY;
+              xOffset = currentX;
+              yOffset = currentY;
+              setTranslate(currentX, currentY, icon);
+            }
+          }
+          function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+          }
+        });
+      });
+    </script>
+    <script id="background-animation">
+      document.addEventListener("DOMContentLoaded", function () {
+        const background = document.getElementById("animated-background");
+        // Code particles
+        const codeSnippets = [
+          "def analyze_data(df):",
+          "import numpy as np",
+          "SELECT * FROM analytics",
+          "model.fit(X_train, y_train)",
+          "plt.plot(x, y)",
+          "df.groupby('category').mean()",
+          "from sklearn.ensemble import RandomForest",
+          "CREATE TABLE metrics",
+          "accuracy = model.score(X_test, y_test)",
+          "JOIN users ON users.id = events.user_id",
+        ];
+        function createCodeParticle() {
+          const particle = document.createElement("div");
+          particle.classList.add("code-particle");
+          particle.textContent =
+            codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+          const size = Math.random() * 10 + 10;
+          const posX = Math.random() * window.innerWidth;
+          const posY = Math.random() * window.innerHeight;
+          const duration = Math.random() * 20 + 10;
+          const delay = Math.random() * 5;
+          particle.style.left = `${posX}px`;
+          particle.style.top = `${posY}px`;
+          particle.style.opacity = "0";
+          particle.style.transform = "translateY(20px)";
+          particle.style.transition = `opacity ${duration}s ease, transform ${duration}s ease`;
+          background.appendChild(particle);
+          setTimeout(() => {
+            particle.style.opacity = "0.15";
+            particle.style.transform = "translateY(-100vh)";
+          }, delay * 1000);
+          setTimeout(
+            () => {
+              background.removeChild(particle);
+            },
+            (duration + delay) * 1000,
+          );
+        }
+        // Data particles
+        function createDataParticle() {
+          const particle = document.createElement("div");
+          particle.classList.add("data-particle");
+          const size = Math.random() * 4 + 2;
+          const posX = Math.random() * window.innerWidth;
+          const posY = Math.random() * window.innerHeight;
+          const duration = Math.random() * 15 + 5;
+          const delay = Math.random() * 5;
+          const colors = ["#6366f1", "#4f46e5", "#8b5cf6", "#3b82f6", "#06b6d4"];
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          particle.style.left = `${posX}px`;
+          particle.style.top = `${posY}px`;
+          particle.style.background = color;
+          particle.style.opacity = "0";
+          particle.style.boxShadow = `0 0 ${size * 2}px ${color}`;
+          particle.style.transform = "translateY(20px)";
+          particle.style.transition = `opacity ${duration}s ease, transform ${duration}s ease`;
+          background.appendChild(particle);
+          setTimeout(() => {
+            particle.style.opacity = "0.3";
+            particle.style.transform = "translateY(-100vh)";
+          }, delay * 1000);
+          setTimeout(
+            () => {
+              background.removeChild(particle);
+            },
+            (duration + delay) * 1000,
+          );
+        }
+        // Create initial particles
+        for (let i = 0; i < 20; i++) {
+          setTimeout(() => {
+            createCodeParticle();
+            createDataParticle();
+          }, i * 300);
+        }
+        // Continue creating particles
+        setInterval(createCodeParticle, 2000);
+        setInterval(createDataParticle, 1000);
+      });
+    </script>
+
+
+<!-- background-animation -->
+<!-- ✨ Particles.js Configuration Script -->
+
+<!-- ✨ Particles.js Configuration Script -->
+<!-- <script>
+  particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+
+      /* 🎨 COLORS */
+      "color": { "value": ["#00e5ff", "#ff6ec4", "#7efff5", "#ffa45b", "#ffffff"] },
+
+      /* 🌟 SHAPES: use "star", "edge", "circle", "polygon" */
+      "shape": {
+        "type": ["circle", "star", "edge"],  // add/remove "square", "polygon"
+        "stroke": { "width": 0, "color": "#000000" }
+      },
+
+      "opacity": { "value": 0.5, "random": true },
+      "size": { "value": 5, "random": true },
+
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#ffffff",
+        "opacity": 0.4,
+        "width": 1
+      },
+
+      /* 🐢 SPEED CONTROL */
+      "move": {
+        "enable": true,
+        "speed": 1.2, // 👉 Change this value to make it slower/faster (e.g., 0.5 = slow, 5 = fast)
+        "direction": "none",
+        "out_mode": "out"
+      }
+    },
+
+    "interactivity": {
+      "events": {
+        "onhover": { "enable": true, "mode": "repulse" },
+        "onclick": { "enable": true, "mode": "push" }
+      },
+      "modes": {
+        "repulse": { "distance": 100 },
+        "push": { "particles_nb": 4 }
+      }
+    },
+
+    "retina_detect": true
+  });
+</script> -->
+
+
+
+  </body>
+</html>
